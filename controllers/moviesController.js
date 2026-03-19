@@ -16,7 +16,7 @@ function show(req, res) {
 
     db.query(sqlQueryBook, [id], (err, books) => {
         if (err) return res.status(500).json({ err: 'DB query error', message: err.message });
-        if (books.lenght === 0) {return res.status(404).json({ message: 'Could not find that book' })};
+        if (books.lenght === 0 || books[0].id === null) {return res.status(404).json({ message: 'Could not find that book' })};
 
         db.query(sqlQueryReviews, [id], (err, reviews) => {
             if (err) return res.status(500).json({ err: 'DB query error', message: err.message });
