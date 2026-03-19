@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 // router
-const postsController = require('./routers/postsRouter');
+const moviesRouter = require('./routers/moviesRouter');
 
 // middleware to handle files in public folder and json files
 app.use(express.static("public"));
@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to the book API!');
 })
 
-app.use('/api/posts', postsController);
+app.use('/api/movies', moviesRouter);
 
 app.use(notFoundMiddleware);
 app.use(errHandlerMiddleware);
