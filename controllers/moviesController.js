@@ -18,10 +18,12 @@ function show(req, res) {
         if (err) return res.status(500).json({ err: 'DB query error', message: err.message });
         if (books.lenght === 0 || books[0].id === null) {return res.status(404).json({ message: 'Could not find that book' })};
 
+        const book = books[0]; 
+
         db.query(sqlQueryReviews, [id], (err, reviews) => {
             if (err) return res.status(500).json({ err: 'DB query error', message: err.message });
 
-            books[0].reviews = reviews;
+            book.reviews = reviews;
             return res.json(books);
         })
     })
