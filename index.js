@@ -1,7 +1,6 @@
 // entrypoint file for express App
 const express = require('express');
 const app = express();
-const port = 3000;
 
 // middleware to handle files in public folder and json files
 app.use(express.static("public"));
@@ -17,6 +16,6 @@ app.get('/', (req, res) => {
 app.use(notFoundMiddleware);
 app.use(errHandlerMiddleware);
 
-app.listen(port, () => {
-  console.log(`App listening on http://localhost:${port}/`)
+app.listen(process.env.APP_PORT, () => {
+  console.log(`App listening on http://localhost:${process.env.APP_PORT}/`)
 })
