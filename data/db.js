@@ -14,7 +14,7 @@ const db = mysql.createConnection(dbConfig);
 db.connect((err) => {
     if (err) {throw err;}
 
-    console.log("Connected to database");
+    console.log("Connected to movies database");
 });
 
 module.exports = db;
