@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 
-dbConfig = {
+const dbConfig = {
     host: 'locahost',
     port: 3000,
     user: 'root',
