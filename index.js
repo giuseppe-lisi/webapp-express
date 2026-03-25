@@ -1,5 +1,6 @@
 // entrypoint file for express App
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 // router
@@ -11,6 +12,8 @@ app.use(express.json());
 // custom middlewares imports
 const errHandlerMiddleware = require('./middleware/errHandler');
 const notFoundMiddleware = require('./middleware/notFound');
+
+app.use(cors({ origin: process.env.FE_URL}))
 
 app.get('/', (req, res) => {
     res.send('Welcome to the book API!');
