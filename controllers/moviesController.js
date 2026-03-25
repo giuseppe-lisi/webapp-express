@@ -11,8 +11,14 @@ function index(req, res) {
 
 function show(req, res) {
     const id = req.params.id;
-    const sqlQueryMovie = 'SELECT * FROM movies WHERE id = ?'
-    const sqlQueryReviews = 'SELECT * FROM reviews WHERE movie_id = ?'
+    const sqlQueryMovie = 'SELECT * FROM movies WHERE id = ?';
+    const sqlQueryReviews = 'SELECT * FROM reviews WHERE movie_id = ?';
+    const sqlQueryReviewsAvg = `
+        SELECT TRUNCATE(AVG(vote), 2) as vote
+        FROM movies
+        JOIN reviews
+        ON reviews.movie_id = movies.id
+        WHERE movies.id = ?`;
 
     db.query(sqlQueryMovie, [id], (err, movies) => {
         if (err) return res.status(500).json({ err: 'DB query error', message: err.message });
@@ -24,7 +30,14 @@ function show(req, res) {
             if (err) return res.status(500).json({ err: 'DB query error', message: err.message });
 
             movie.reviews = reviews;
-            return res.json(movie);
+
+            db.query(sqlQueryReviewsAvg, [id], (err, reviewAvg) => {
+                if (err) return res.status(500).json({ err: 'Unable to fetch reviews AVG', message: err.message });
+                
+                movie.avg = reviewAvg[0].vote
+
+                return res.json(movie)
+            })
         })
     })
 }
