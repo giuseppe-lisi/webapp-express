@@ -11,20 +11,20 @@ function index(req, res) {
 
 function show(req, res) {
     const id = req.params.id;
-    const sqlQueryBook = 'SELECT * FROM movies WHERE id = ?'
+    const sqlQueryMovie = 'SELECT * FROM movies WHERE id = ?'
     const sqlQueryReviews = 'SELECT * FROM reviews WHERE movie_id = ?'
 
-    db.query(sqlQueryBook, [id], (err, books) => {
+    db.query(sqlQueryMovie, [id], (err, movies) => {
         if (err) return res.status(500).json({ err: 'DB query error', message: err.message });
-        if (books.lenght === 0 || books[0].id === null) {return res.status(404).json({ message: 'Could not find that book' })};
+        if (movies.lenght === 0 || movies[0].id === null) {return res.status(404).json({ message: 'Could not find that movie' })};
 
-        const book = books[0]; 
+        const movie = movies[0]; 
 
         db.query(sqlQueryReviews, [id], (err, reviews) => {
             if (err) return res.status(500).json({ err: 'DB query error', message: err.message });
 
-            book.reviews = reviews;
-            return res.json(books);
+            movie.reviews = reviews;
+            return res.json(movie);
         })
     })
 }
