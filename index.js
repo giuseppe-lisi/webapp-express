@@ -7,7 +7,7 @@ const app = express();
 const moviesRouter = require('./routers/moviesRouter');
 
 // middleware to handle files in public folder and json files
-app.use(express.static("public"));
+app.use("/static/", express.static("public"));
 app.use(express.json());
 // custom middlewares imports
 const errHandlerMiddleware = require('./middleware/errHandler');
