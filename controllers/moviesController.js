@@ -42,4 +42,22 @@ function show(req, res) {
     })
 }
 
-module.exports = { index, show }
+function storeReviews(req, res) {
+
+    const { id } = req.params;
+
+    const { name, vote, text } = req.body; 
+    
+    const sqlQuery = `
+        INSERT INTO reviews (movie_id, name, vote, text) 
+        VALUES (?, ?, ?, ?)
+    `
+
+    db.query(sqlQuery, [id, name, vote, text], (err, results) => {
+        if (err) return res.status(500).json({ err: 'Could not add review', message: err.message });
+
+        res.status(201).json({ message: "review added", id: results.insertId})
+    })
+}
+
+module.exports = { index, show, storeReviews }
